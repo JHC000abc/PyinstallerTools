@@ -1,9 +1,9 @@
-# !/usr/bin/python3
+# !\usr\bin\python3
 # -*- coding:utf-8 -*-
 """
 @author: JHC000abc@gmail.com
 @file: ctrl_main.py
-@time: 2024/4/17 14:36 
+@time: 2024\4\17 14:36 
 @desc: 
 
 """
@@ -46,18 +46,19 @@ class MainUiForm(QtWidgets.QWidget):
 
         :return:
         """
-        self.pyinstaller_path = None
-        self.ico_path = None
-        self.temp_path = None
-        self.start_file = None
-
-        # self.pyinstaller_path = R"D:/Environment/Python3.9.9/Scripts/pyinstaller.exe"
+        # self.pyinstaller_path = None
         # self.ico_path = None
-        # self.temp_path = R"C:/Users/v_jiaohaicheng/Downloads/1111"
-        # self.start_file = R"D:/Project/Python/pythondevelopmenttools/tests/pyinstaller_test/test.py"
+        # self.temp_path = None
+        # self.start_file = None
+
+        self.pyinstaller_path = R"D:\Project\Python\pythondevelopmenttools\venv\Scripts\pyinstaller.exe"
+        self.ico_path = None
+        self.temp_path = R"C:\Users\v_jiaohaicheng\Downloads\1111"
+        self.start_file = R"D:\Project\Python\pythondevelopmenttools\tests\pyinstaller_test\test.py"
 
         self.single_file = True
         self.single_clear = True
+        self.single_cmd_hide = True
 
     def __slot(self):
         self.ui.pushButton_pyinstaller.clicked.connect(self.check_pyinstaller)
@@ -68,10 +69,21 @@ class MainUiForm(QtWidgets.QWidget):
 
         self.ui.checkBox_single.stateChanged.connect(self.check_single_file)
         self.ui.checkBox_clear.stateChanged.connect(self.check_clear)
+        self.ui.checkBox_cmd.stateChanged.connect(self.cmd_hide)
 
         self.make_exe.signal_start.connect(self.start_make_exe)
         self.make_exe.signal_cmd.connect(self.show_cmd_msg)
         self.thread.signal_thread_finished.connect(self.remove_temp_paths)
+
+    def cmd_hide(self):
+        """
+
+        :return:
+        """
+        if self.single_cmd_hide:
+            self.single_cmd_hide = False
+        else:
+            self.single_cmd_hide = True
 
     def remove_temp_paths(self):
         """
@@ -83,8 +95,7 @@ class MainUiForm(QtWidgets.QWidget):
                 shutil.rmtree(os.path.join(os.path.join(self.temp_path, "dist"), "build"))
                 shutil.rmtree(os.path.join(os.path.join(self.temp_path, "dist"), "spec"))
                 self.make_exe.signal_cmd.emit("临时文件清理完成")
-            except Exception as e:
-                print(e, e.__traceback__.tb_lineno)
+            except:
                 self.make_exe.signal_cmd.emit("临时文件清理失败")
 
     def check_clear(self):
@@ -117,7 +128,7 @@ class MainUiForm(QtWidgets.QWidget):
         if text:
             for line in text.split("\n"):
                 if os.path.isabs(line) and os.path.isdir(line):
-                    lis.append(line)
+                    lis.append(os.path.abspath(line))
         if lis:
             lis = list(set(lis))
         return lis
@@ -142,7 +153,8 @@ class MainUiForm(QtWidgets.QWidget):
             self.make_exe.process(pyinstaller_path=self.pyinstaller_path, mode="F" if self.single_file else "",
                                   ico=self.ico_path if self.ico_path else "", temp_path=self.temp_path,
                                   third_paths=self.third_paths,
-                                  file=self.start_file, data_paths=self.data_paths, binary_paths=self.binary_paths)
+                                  file=self.start_file, data_paths=self.data_paths, binary_paths=self.binary_paths,
+                                  single_cmd_hide=self.single_cmd_hide)
 
         self.make_exe.signal_cmd.emit("开始打包")
         self.data_paths = self.get_data_list_from_line_edit(self.ui.textEdit_data_paths.toPlainText())

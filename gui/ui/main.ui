@@ -256,6 +256,22 @@ p, li { white-space: pre-wrap; }
     <string>二进制文件目录</string>
    </property>
   </widget>
+  <widget class="QCheckBox" name="checkBox_cmd">
+   <property name="geometry">
+    <rect>
+     <x>480</x>
+     <y>200</y>
+     <width>161</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>是否隐藏命令行窗口</string>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+  </widget>
  </widget>
  <resources/>
  <connections/>

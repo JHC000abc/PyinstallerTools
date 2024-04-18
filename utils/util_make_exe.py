@@ -83,6 +83,11 @@ class MakeEXE(Signal, QObject):
             mode = "-F"
             base_cmd += f"{mode} "
 
+        # 隐藏 cmd 界面
+        cmd_hide = kwargs.get("single_cmd_hide")
+        if cmd_hide:
+            base_cmd += f"-w "
+
         # 图标
         ico = kwargs.get("ico")
         if ico:
@@ -129,10 +134,10 @@ class MakeEXE(Signal, QObject):
         # 项目启动文件路径
         file = kwargs.get("file")
         self.check_options_error(file, "请输入要打包的 .py 入口文件路径")
-        base_cmd += f" {file}"
+        base_cmd += f"{file}"
 
         # print("base_cmd", base_cmd)
-
+        os.chdir(os.sep.join(os.path.split(file)[:-1]))
         self.run_cmd(base_cmd)
 
 

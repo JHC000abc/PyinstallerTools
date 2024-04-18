@@ -67,6 +67,10 @@ class Ui_Form(object):
         self.textEdit_binary_paths = QtWidgets.QTextEdit(Form)
         self.textEdit_binary_paths.setGeometry(QtCore.QRect(50, 330, 651, 71))
         self.textEdit_binary_paths.setObjectName("textEdit_binary_paths")
+        self.checkBox_cmd = QtWidgets.QCheckBox(Form)
+        self.checkBox_cmd.setGeometry(QtCore.QRect(480, 200, 161, 31))
+        self.checkBox_cmd.setChecked(True)
+        self.checkBox_cmd.setObjectName("checkBox_cmd")
 
         self.retranslateUi(Form)
         QtCore.QMetaObject.connectSlotsByName(Form)
@@ -109,3 +113,4 @@ class Ui_Form(object):
 "</style></head><body style=\" font-family:\'SimSun\'; font-size:9pt; font-weight:400; font-style:normal;\">\n"
 "<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><br /></p></body></html>"))
         self.textEdit_binary_paths.setPlaceholderText(_translate("Form", "二进制文件目录"))
+        self.checkBox_cmd.setText(_translate("Form", "是否隐藏命令行窗口"))
