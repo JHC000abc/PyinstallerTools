@@ -46,15 +46,15 @@ class MainUiForm(QtWidgets.QWidget):
 
         :return:
         """
-        # self.pyinstaller_path = None
-        # self.ico_path = None
-        # self.temp_path = None
-        # self.start_file = None
-
-        self.pyinstaller_path = R"D:\Project\Python\pythondevelopmenttools\venv\Scripts\pyinstaller.exe"
+        self.pyinstaller_path = None
         self.ico_path = None
-        self.temp_path = R"C:\Users\v_jiaohaicheng\Downloads\1111"
-        self.start_file = R"D:\Project\Python\pythondevelopmenttools\tests\pyinstaller_test\test.py"
+        self.temp_path = None
+        self.start_file = None
+
+        # self.pyinstaller_path = R"D:\Project\Python\pythondevelopmenttools\venv\Scripts\pyinstaller.exe"
+        # self.ico_path = None
+        # self.temp_path = R"C:\Users\v_jiaohaicheng\Downloads\1111"
+        # self.start_file = R"D:\Project\Python\pythondevelopmenttools\tests\pyinstaller_test\test.py"
 
         self.single_file = True
         self.single_clear = True
