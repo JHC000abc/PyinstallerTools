@@ -49,6 +49,7 @@ class MakeEXE(Signal, QObject):
         :param encoding:
         :return:
         """
+        self.signal_cmd.emit(cmd)
         p = subprocess.Popen(
             cmd,
             shell=True,
@@ -130,7 +131,7 @@ class MakeEXE(Signal, QObject):
         self.check_options_error(file, "请输入要打包的 .py 入口文件路径")
         base_cmd += f" {file}"
 
-        print("base_cmd", base_cmd)
+        # print("base_cmd", base_cmd)
 
         self.run_cmd(base_cmd)
 
