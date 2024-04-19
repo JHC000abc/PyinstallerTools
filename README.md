@@ -50,7 +50,7 @@ Pyinstaller打包Python小工具
 解决方案：使用/utils/util_file_process.py中的方法转换下路径就可以了
 
 
-
+可执行文件(发行版)：去github Actions 里找
 
 
 **如遇到其他打包问题联系作者：**
