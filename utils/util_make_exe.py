@@ -144,6 +144,10 @@ class MakeEXE(Signal, QObject):
         if exe_name:
             base_cmd += f"-n {exe_name} "
 
+        additional_instruction_set = kwargs["additional_instruction_set"]
+        if additional_instruction_set:
+            base_cmd += f"{exe_name} "
+
         # 项目启动文件路径
         file = kwargs.get("file")
         self.check_options_error(file, "请输入要打包的 .py 入口文件路径")

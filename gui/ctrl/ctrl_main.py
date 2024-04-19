@@ -18,6 +18,9 @@ from manager.ThreadSelf import MyThread
 
 
 class MainUiForm(QtWidgets.QWidget):
+    """
+
+    """
 
     def __init__(self):
         super(MainUiForm, self).__init__()
@@ -53,6 +56,7 @@ class MainUiForm(QtWidgets.QWidget):
         self.file_name = None
         self.hidden_import_list = []
         self.splash = None
+        self.additional_instruction_set = None
 
         # self.pyinstaller_path = R"D:\Project\Python\pythondevelopmenttools\venv\Scripts\pyinstaller.exe"
         # self.ico_path = None
@@ -63,7 +67,16 @@ class MainUiForm(QtWidgets.QWidget):
         self.single_clear = True
         self.single_cmd_hide = True
 
+        self.forbidden_list = ["--icon", "-i", "--name", "-n", "-F"]
+
     def __slot(self):
+        """
+
+        """
+        self.make_exe.signal_start.connect(self.start_make_exe)
+        self.make_exe.signal_cmd.connect(self.show_cmd_msg)
+        self.thread.signal_thread_finished.connect(self.remove_temp_paths)
+
         self.ui.pushButton_pyinstaller.clicked.connect(self.check_pyinstaller)
         self.ui.pushButton_ico.clicked.connect(self.check_ico)
         self.ui.pushButton_temp_path.clicked.connect(self.check_temp_path)
@@ -74,10 +87,19 @@ class MainUiForm(QtWidgets.QWidget):
         self.ui.checkBox_single.stateChanged.connect(self.check_single_file)
         self.ui.checkBox_clear.stateChanged.connect(self.check_clear)
         self.ui.checkBox_cmd.stateChanged.connect(self.cmd_hide)
+        self.ui.lineEdit_additional_instruction_set.textChanged.connect(self.check_additional_instruction_set)
 
-        self.make_exe.signal_start.connect(self.start_make_exe)
-        self.make_exe.signal_cmd.connect(self.show_cmd_msg)
-        self.thread.signal_thread_finished.connect(self.remove_temp_paths)
+    def check_additional_instruction_set(self):
+        """
+
+        """
+        now_text = self.ui.lineEdit_additional_instruction_set.text()
+        for forbidden in self.forbidden_list:
+            if forbidden in now_text:
+                self.make_exe.signal_cmd.emit(f"禁止在附加指令集中输入 {', '.join(self.forbidden_list)} 等参数")
+                now_text = now_text.replace(forbidden, "")
+                self.ui.lineEdit_additional_instruction_set.setText(now_text)
+                break
 
     def cmd_hide(self):
         """
@@ -159,7 +181,8 @@ class MainUiForm(QtWidgets.QWidget):
                                   third_paths=self.third_paths,
                                   file=self.start_file, data_paths=self.data_paths, binary_paths=self.binary_paths,
                                   single_cmd_hide=self.single_cmd_hide, exe_name=self.file_name,
-                                  hiddens=self.hidden_import_list, splash=self.splash)
+                                  hiddens=self.hidden_import_list, splash=self.splash,
+                                  additional_instruction_set=self.additional_instruction_set)
 
         self.make_exe.signal_cmd.emit("开始打包")
         self.data_paths = self.get_data_list_from_line_edit(self.ui.textEdit_data_paths.toPlainText())
@@ -168,6 +191,10 @@ class MainUiForm(QtWidgets.QWidget):
         hidden_import = self.ui.lineEdit_hidden_import.text()
         if hidden_import:
             self.hidden_import_list = hidden_import.split(",")
+
+        additional_instruction_set = self.ui.lineEdit_additional_instruction_set.text()
+        if additional_instruction_set:
+            self.additional_instruction_set = additional_instruction_set
 
         self.thread.add_job(start)
         self.thread.start()
@@ -290,8 +317,10 @@ class MainUiForm(QtWidgets.QWidget):
         :param msg:
         :return:
         """
+        print("msg", msg)
         msg_box = QMessageBox(QMessageBox.Warning, 'Warning', msg)
         msg_box.setWindowFlags(Qt.FramelessWindowHint)
+        msg_box.setModal(True)
         msg_box.show()
         msg_box.exec_()
 

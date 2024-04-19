@@ -14,3 +14,4 @@ from PyQt5.QtCore import QObject, pyqtSignal
 class Signal(QObject):
     signal_start = pyqtSignal()
     signal_cmd = pyqtSignal(str)
+

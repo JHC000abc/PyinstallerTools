@@ -74,7 +74,8 @@ class Ui_Form(object):
         self.lineEdit_name = QtWidgets.QLineEdit(Form)
         self.lineEdit_name.setGeometry(QtCore.QRect(50, 530, 113, 41))
         self.lineEdit_name.setStyleSheet("border-bottom: 3px solid black;\n"
-"border-top: none;")
+"border-top: none;\n"
+"font: 12pt \"黑体\";")
         self.lineEdit_name.setAlignment(QtCore.Qt.AlignCenter)
         self.lineEdit_name.setCursorMoveStyle(QtCore.Qt.VisualMoveStyle)
         self.lineEdit_name.setObjectName("lineEdit_name")
@@ -87,6 +88,14 @@ class Ui_Form(object):
         self.lineEdit_splash = QtWidgets.QLineEdit(Form)
         self.lineEdit_splash.setGeometry(QtCore.QRect(50, 180, 551, 20))
         self.lineEdit_splash.setObjectName("lineEdit_splash")
+        self.lineEdit_additional_instruction_set = QtWidgets.QLineEdit(Form)
+        self.lineEdit_additional_instruction_set.setGeometry(QtCore.QRect(190, 530, 391, 41))
+        self.lineEdit_additional_instruction_set.setStyleSheet("border-bottom: 3px solid black;\n"
+"border-top: none;\n"
+"font: 12pt \"黑体\";")
+        self.lineEdit_additional_instruction_set.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignVCenter)
+        self.lineEdit_additional_instruction_set.setCursorMoveStyle(QtCore.Qt.VisualMoveStyle)
+        self.lineEdit_additional_instruction_set.setObjectName("lineEdit_additional_instruction_set")
 
         self.retranslateUi(Form)
         QtCore.QMetaObject.connectSlotsByName(Form)
@@ -134,3 +143,4 @@ class Ui_Form(object):
         self.lineEdit_hidden_import.setPlaceholderText(_translate("Form", "一些无法导入的系统模块,多个模块间用 ”，“分隔"))
         self.pushButton_splash.setText(_translate("Form", "Select"))
         self.lineEdit_splash.setPlaceholderText(_translate("Form", "启动动画 路径（必须是.png格式）"))
+        self.lineEdit_additional_instruction_set.setPlaceholderText(_translate("Form", "附加指令集"))
