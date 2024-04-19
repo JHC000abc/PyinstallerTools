@@ -12,6 +12,14 @@ from PyQt5 import QtWidgets
 from gui.ctrl.ctrl_main import MainUiForm
 from qt_material import apply_stylesheet
 
+# 禁止闪屏 不打包不生效
+try:
+    import pyi_splash
+    pyi_splash.close()
+except ImportError:
+    pass
+
+
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
     QtWidgets.QApplication.processEvents()

@@ -70,6 +70,7 @@ class MakeEXE(Signal, QObject):
         :param kwargs:
         :return:
         """
+        print(kwargs)
         base_cmd = ""
         # Pyinstaller.exe
         pyinstaller_path = kwargs.get("pyinstaller_path")
@@ -130,6 +131,19 @@ class MakeEXE(Signal, QObject):
                 else:
                     base_cmd += f"{path}"
             base_cmd += " "
+
+        hiddens = kwargs.get("hiddens")
+        if hiddens:
+            for path in hiddens:
+                base_cmd += f'--hidden-import "{path}" '
+
+        splash = kwargs.get("splash")
+        if splash:
+            base_cmd += f"--splash {splash} "
+
+        exe_name = kwargs.get("exe_name")
+        if exe_name:
+            base_cmd += f"-n {exe_name} "
 
         # 项目启动文件路径
         file = kwargs.get("file")

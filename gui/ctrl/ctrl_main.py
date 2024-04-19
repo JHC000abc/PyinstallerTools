@@ -35,7 +35,7 @@ class MainUiForm(QtWidgets.QWidget):
         :return:
         """
         self.setWindowTitle("Python打包工具")
-        self.setFixedSize(755, 836)
+        self.setFixedSize(755, 890)
         self.ui.lineEdit_pyinstaller.setReadOnly(True)
         self.ui.lineEdit_ico.setReadOnly(True)
         self.ui.lineEdit_temp_path.setReadOnly(True)
@@ -50,11 +50,14 @@ class MainUiForm(QtWidgets.QWidget):
         self.ico_path = None
         self.temp_path = None
         self.start_file = None
+        self.file_name = None
+        self.hidden_import_list = []
+        self.splash = None
 
-        # self.pyinstaller_path = R"D:\Project\Python\pythondevelopmenttools\venv\Scripts\pyinstaller.exe"
-        # self.ico_path = None
-        # self.temp_path = R"C:\Users\v_jiaohaicheng\Downloads\1111"
-        # self.start_file = R"D:\Project\Python\pythondevelopmenttools\tests\pyinstaller_test\test.py"
+        self.pyinstaller_path = R"D:\Project\Python\pythondevelopmenttools\venv\Scripts\pyinstaller.exe"
+        self.ico_path = None
+        self.temp_path = R"C:\Users\v_jiaohaicheng\Downloads\1111"
+        self.start_file = R"D:\Project\Python\pythondevelopmenttools\tests\pyinstaller_test\test.py"
 
         self.single_file = True
         self.single_clear = True
@@ -66,6 +69,7 @@ class MainUiForm(QtWidgets.QWidget):
         self.ui.pushButton_temp_path.clicked.connect(self.check_temp_path)
         self.ui.pushButton_file.clicked.connect(self.check_file)
         self.ui.pushButton_start.clicked.connect(self.check_start)
+        self.ui.pushButton_splash.clicked.connect(self.check_splash)
 
         self.ui.checkBox_single.stateChanged.connect(self.check_single_file)
         self.ui.checkBox_clear.stateChanged.connect(self.check_clear)
@@ -154,12 +158,16 @@ class MainUiForm(QtWidgets.QWidget):
                                   ico=self.ico_path if self.ico_path else "", temp_path=self.temp_path,
                                   third_paths=self.third_paths,
                                   file=self.start_file, data_paths=self.data_paths, binary_paths=self.binary_paths,
-                                  single_cmd_hide=self.single_cmd_hide)
+                                  single_cmd_hide=self.single_cmd_hide, exe_name=self.file_name,
+                                  hiddens=self.hidden_import_list,splash=self.splash)
 
         self.make_exe.signal_cmd.emit("开始打包")
         self.data_paths = self.get_data_list_from_line_edit(self.ui.textEdit_data_paths.toPlainText())
         self.binary_paths = self.get_data_list_from_line_edit(self.ui.textEdit_binary_paths.toPlainText())
         self.third_paths = self.get_data_list_from_line_edit(self.ui.textEdit_third_paths.toPlainText())
+        hidden_import = self.ui.lineEdit_hidden_import.text()
+        if hidden_import:
+            self.hidden_import_list = hidden_import.split(",")
 
         self.thread.add_job(start)
         self.thread.start()
@@ -178,8 +186,25 @@ class MainUiForm(QtWidgets.QWidget):
         if not self.start_file:
             self.show_msg("请选择【项目启动文件】路径")
             return
+        else:
+            self.file_name = self.ui.lineEdit_name.text()
 
         self.make_exe.signal_start.emit()
+
+    def check_splash(self):
+        """
+
+        """
+        path = self.select_path_file(1)[0]
+        if path:
+            if path.endswith(".png"):
+                self.splash = path
+                self.make_exe.signal_cmd.emit(f"选中 【项目启动文件】 路径:{path}")
+                self.ui.lineEdit_splash.setText(self.splash)
+            else:
+                self.show_msg("请选择正确的 项目启动文件 路径\n必须为空文件夹")
+        else:
+            self.show_msg("请选择正确的 项目启动文件 路径\n必须为空文件夹")
 
     def check_file(self):
         """
@@ -192,6 +217,8 @@ class MainUiForm(QtWidgets.QWidget):
                 self.start_file = path
                 self.ui.lineEdit_file.setText(path)
                 self.make_exe.signal_cmd.emit(f"选中 【项目启动文件】 路径:{path}")
+                self.file_name = os.path.split(self.start_file)[-1].split(".")[0]
+                self.ui.lineEdit_name.setText(self.file_name)
             else:
                 self.show_msg("请选择正确的 项目启动文件 路径\n必须为空文件夹")
         else:
