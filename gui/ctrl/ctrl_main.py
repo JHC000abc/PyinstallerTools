@@ -199,12 +199,12 @@ class MainUiForm(QtWidgets.QWidget):
         if path:
             if path.endswith(".png"):
                 self.splash = path
-                self.make_exe.signal_cmd.emit(f"选中 【项目启动文件】 路径:{path}")
+                self.make_exe.signal_cmd.emit(f"选中 【项目启动图片】 路径:{path}")
                 self.ui.lineEdit_splash.setText(self.splash)
             else:
-                self.show_msg("请选择正确的 项目启动文件 路径\n必须为空文件夹")
+                self.show_msg("请选择正确的 项目启动图片 路径\n必须为空文件夹")
         else:
-            self.show_msg("请选择正确的 项目启动文件 路径\n必须为空文件夹")
+            self.show_msg("请选择正确的 项目启动图片 路径\n必须为空文件夹")
 
     def check_file(self):
         """
