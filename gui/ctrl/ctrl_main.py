@@ -54,10 +54,10 @@ class MainUiForm(QtWidgets.QWidget):
         self.hidden_import_list = []
         self.splash = None
 
-        self.pyinstaller_path = R"D:\Project\Python\pythondevelopmenttools\venv\Scripts\pyinstaller.exe"
-        self.ico_path = None
-        self.temp_path = R"C:\Users\v_jiaohaicheng\Downloads\1111"
-        self.start_file = R"D:\Project\Python\pythondevelopmenttools\tests\pyinstaller_test\test.py"
+        # self.pyinstaller_path = R"D:\Project\Python\pythondevelopmenttools\venv\Scripts\pyinstaller.exe"
+        # self.ico_path = None
+        # self.temp_path = R"C:\Users\v_jiaohaicheng\Downloads\1111"
+        # self.start_file = R"D:\Project\Python\pythondevelopmenttools\tests\pyinstaller_test\test.py"
 
         self.single_file = True
         self.single_clear = True
@@ -159,7 +159,7 @@ class MainUiForm(QtWidgets.QWidget):
                                   third_paths=self.third_paths,
                                   file=self.start_file, data_paths=self.data_paths, binary_paths=self.binary_paths,
                                   single_cmd_hide=self.single_cmd_hide, exe_name=self.file_name,
-                                  hiddens=self.hidden_import_list,splash=self.splash)
+                                  hiddens=self.hidden_import_list, splash=self.splash)
 
         self.make_exe.signal_cmd.emit("开始打包")
         self.data_paths = self.get_data_list_from_line_edit(self.ui.textEdit_data_paths.toPlainText())

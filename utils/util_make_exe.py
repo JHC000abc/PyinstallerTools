@@ -70,7 +70,6 @@ class MakeEXE(Signal, QObject):
         :param kwargs:
         :return:
         """
-        print(kwargs)
         base_cmd = ""
         # Pyinstaller.exe
         pyinstaller_path = kwargs.get("pyinstaller_path")
