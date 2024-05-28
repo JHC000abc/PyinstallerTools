@@ -1,7 +1,7 @@
 # PyinstallerTools
 Pyinstaller打包Python小工具
 
-![image-20240419154553904](http://121.36.12.170:8888/static/image-20240419154553904.png)
+![image-20240528162904517](https://collection-data.bj.bcebos.com/jiaohaicheng/selfspace/b16717b4_60ff_4cb1_9a37_639b89c38d37/image-20240528162904517.png?authorization=bce-auth-v1%2F359794b9ccff4c03a01bdaaf0ede3be2%2F2024-05-28T08%3A29%3A22Z%2F-1%2F%2Fd30a728fe91f247b35d6d54cdbdf2df984c1aa94beaf0c28f4cbf1c826ecab8f)
 
 1. 所有带 * 的都必须填入
 
@@ -40,12 +40,6 @@ Pyinstaller打包Python小工具
 16. 所有日志会显示在最下边的日志区
 
 13. 尽量不要打包一半强制退出程序
-
-
-
-![image-20240419125934108](http://121.36.12.170:8888/static/image-20240419125934108.png)
-
-
 
 添加资源文件时打包后容易找不到
 

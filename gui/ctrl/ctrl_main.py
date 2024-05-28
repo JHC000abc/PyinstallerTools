@@ -8,13 +8,16 @@
 
 """
 import os
+import random
 import shutil
-from PyQt5 import QtWidgets
-from PyQt5.QtCore import Qt
+from PyQt5 import QtWidgets, QtGui
+from PyQt5.QtCore import Qt, QTimer
+from PyQt5.QtGui import QIcon
 from gui.ui.main import Ui_Form
 from PyQt5.QtWidgets import QFileDialog, QMessageBox
 from utils.util_make_exe import MakeEXE
 from manager.ThreadSelf import MyThread
+from utils.util_file_process import FileProcess
 
 
 class MainUiForm(QtWidgets.QWidget):
@@ -24,6 +27,16 @@ class MainUiForm(QtWidgets.QWidget):
 
     def __init__(self):
         super(MainUiForm, self).__init__()
+        self.fp = FileProcess()
+        # 10s 轮播背景图
+        self.folder = self.fp.get_resource_path(R"gui/res/backgrounds")
+        self.background_image_list = [f"{self.folder}/{name}" for name in os.listdir(self.folder) if
+                                      name.endswith(".png")]
+        self.background = Rf"{self.folder}/watermark.png"
+        self.timer = QTimer(self)
+        self.timer.timeout.connect(self.update_background)
+        self.timer.start(10000)
+
         self.make_exe = MakeEXE()
         self.ui = Ui_Form()
         self.ui.setupUi(self)
@@ -31,6 +44,13 @@ class MainUiForm(QtWidgets.QWidget):
         self.__view()
         self.__args()
         self.__slot()
+
+    def update_background(self):
+        """
+
+        """
+        if self.background_image_list:
+            self.background = random.choices(self.background_image_list)[0]
 
     def __view(self):
         """
@@ -43,6 +63,7 @@ class MainUiForm(QtWidgets.QWidget):
         self.ui.lineEdit_ico.setReadOnly(True)
         self.ui.lineEdit_temp_path.setReadOnly(True)
         self.ui.lineEdit_file.setReadOnly(True)
+        self.setWindowIcon(QIcon(self.fp.get_resource_path(Rf"gui/res/icon/icon.png")))
 
     def __args(self):
         """
@@ -317,7 +338,6 @@ class MainUiForm(QtWidgets.QWidget):
         :param msg:
         :return:
         """
-        print("msg", msg)
         msg_box = QMessageBox(QMessageBox.Warning, 'Warning', msg)
         msg_box.setWindowFlags(Qt.FramelessWindowHint)
         msg_box.setModal(True)
@@ -338,3 +358,12 @@ class MainUiForm(QtWidgets.QWidget):
             os._exit(0)
         else:
             event.ignore()
+
+    def paintEvent(self, event):
+        super(MainUiForm, self).paintEvent(event)
+        painter = QtGui.QPainter(self)
+        painter.setRenderHint(QtGui.QPainter.Antialiasing)
+        watermark = QtGui.QPixmap(self.background)
+        painter.setOpacity(0.8)
+        painter.drawPixmap(self.rect(), watermark)
+        self.update()
