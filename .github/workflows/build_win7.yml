@@ -25,6 +25,8 @@ jobs:
 
     - name: Build exe
       run: |
+        pwd
+        ls -al
         pyinstaller --onefile -w -n "PyinstallerTool" --add-data=./gui/res:gui/res -i ./gui/res/favicon.ico start.py
 
     - name: Publish Artifact
