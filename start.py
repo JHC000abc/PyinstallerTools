@@ -11,9 +11,9 @@ import sys
 from PyQt5 import QtWidgets
 from gui.ctrl.ctrl_main import MainUiForm
 from PyQt5.QtWidgets import QMessageBox
-from qt_material import apply_stylesheet
 from PyQt5.QtGui import QIcon
 from utils.util_file_process import FileProcess
+from qt_material import apply_stylesheet
 
 # 禁止闪屏 不打包不生效
 try:
