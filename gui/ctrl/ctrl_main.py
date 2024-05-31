@@ -20,6 +20,7 @@ from manager.ThreadSelf import MyThread
 from utils.util_file_process import FileProcess
 
 
+
 class MainUiForm(QtWidgets.QWidget):
     """
 
@@ -31,7 +32,7 @@ class MainUiForm(QtWidgets.QWidget):
         # 10s 轮播背景图
         self.folder = self.fp.get_resource_path(R"gui/res/backgrounds")
         self.background_image_list = [f"{self.folder}/{name}" for name in os.listdir(self.folder) if
-                                      name.endswith(".png")]
+                                      name.endswith(".png") or name.endswith(".jpg")]
         self.background = Rf"{self.folder}/watermark.png"
         self.timer = QTimer(self)
         self.timer.timeout.connect(self.update_background)
